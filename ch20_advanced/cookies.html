@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Notes App (LocalStorage + Cookies)</title>
+  </head>
+  <body>
+    <h2>Notes App</h2>
+
+    <input type="text" id="noteInput" placeholder="Write a note" />
+    <button onclick="saveNote()">Save Note</button>
+    <button onclick="clearAll()">Clear All</button>
+
+    <h3>Saved Notes:</h3>
+    <ul id="notesList"></ul>
+
+    <script>
+      // Load on start
+      window.onload = function () {
+        displayNotes();
+      };
+
+      // Save note
+      function saveNote() {
+        let note = document.getElementById("noteInput").value;
+        if (note === "") return;
+
+        let notes = JSON.parse(localStorage.getItem("notes")) || [];
+        notes.push(note);
+
+        localStorage.setItem("notes", JSON.stringify(notes));
+
+        // ALSO save last note in cookie (for demo)
+        setCookie("lastNote", note, 7);
+
+        document.getElementById("noteInput").value = "";
+        displayNotes();
+      }
+
+      // Display notes
+      function displayNotes() {
+        let notes = JSON.parse(localStorage.getItem("notes")) || [];
+        let list = document.getElementById("notesList");
+        list.innerHTML = "";
+
+        notes.forEach((note) => {
+          let li = document.createElement("li");
+          li.textContent = note;
+          list.appendChild(li);
+        });
+
+        // Show cookie value (last note)
+        let last = getCookie("lastNote");
+        if (last) {
+          let info = document.createElement("p");
+          info.textContent = "🍪 Last note (cookie): " + last;
+          list.appendChild(info);
+        }
+      }
+
+      // Clear everything
+      function clearAll() {
+        localStorage.removeItem("notes");
+        deleteCookie("lastNote");
+        displayNotes();
+      }
+
+      // =========================
+      // COOKIE FUNCTIONS
+      // =========================
+
+      function setCookie(name, value, days) {
+        let date = new Date();
+        date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+        let expires = "expires=" + date.toUTCString();
+        document.cookie = name + "=" + value + ";" + expires + ";path=/";
+      }
+
+      function getCookie(name) {
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let cookies = decodedCookie.split(";");
+
+        for (let i = 0; i < cookies.length; i++) {
+          let c = cookies[i].trim();
+          if (c.indexOf(name + "=") === 0) {
+            return c.substring(name.length + 1);
+          }
+        }
+        return "";
+      }
+
+      function deleteCookie(name) {
+        document.cookie =
+          name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      }
+    </script>
+  </body>
+</html>

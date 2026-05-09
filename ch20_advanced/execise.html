@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>local storage</title>
+</head>
+<body>
+    <input type="text" id="inputcolor" placeholder="enter">
+    <button onclick="Savecolor()">save </button>
+    <h2 id="result"></h2>
+
+    <script>
+        function Savecolor(){
+      let color = document.getElementById("inputcolor").value
+       localStorage.setItem("color", color)
+   let Savedcolor =localStorage.getItem("color")
+   if (Savedcolor) {
+    document.getElementById("result").innerText= Savedcolor
+   }
+
+
+        }
+    </script>
+    
+</body>
+</html>

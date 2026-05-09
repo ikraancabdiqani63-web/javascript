@@ -1,0 +1,22 @@
+h1 {
+    color: blue;
+    font-size: 24px;
+}
+button {
+    background-color: green;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+div {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    text-align: center;
+    background-color: aquamarine;
+    border: none;
+    border-radius: 20px;
+    padding: 20px;
+    margin: 20px, 20px, 20px, 20px;
+}

@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Local Storage Notes App</title>
+  </head>
+  <body>
+    <h2>My Notes App</h2>
+
+    <input type="text" id="noteInput" placeholder="Write a note" />
+    <button onclick="saveNote()">Save Note</button>
+    <button onclick="clearNotes()">Clear All</button>
+
+    <h3>Saved Notes:</h3>
+    <ul id="notesList"></ul>
+
+    <script>
+      // Load notes when page opens
+      window.onload = function () {
+        displayNotes();
+      };
+
+      function saveNote() {
+        let note = document.getElementById("noteInput").value;
+
+        if (note === "") return;
+
+        // Get existing notes or empty array
+        let notes = JSON.parse(localStorage.getItem("notes")) || [];
+
+        // Add new note
+        notes.push(note);
+
+        // Save back to localStorage
+        localStorage.setItem("notes", JSON.stringify(notes));
+
+        document.getElementById("noteInput").value = "";
+
+        displayNotes();
+      }
+
+      function displayNotes() {
+        let notes = JSON.parse(localStorage.getItem("notes")) || [];
+
+        let list = document.getElementById("notesList");
+        list.innerHTML = "";
+
+        notes.forEach((note, index) => {
+          let li = document.createElement("li");
+          li.textContent = note;
+          list.appendChild(li);
+        });
+      }
+
+      function clearNotes() {
+        localStorage.removeItem("notes");
+        displayNotes();
+      }
+    </script>
+  </body>
+</html>
