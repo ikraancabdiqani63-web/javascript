@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>counter</title>
+  </head>
+  <body>
+    <button onclick="increase()">+ count</button>
+    <button onclick="decrease()">- count</button>
+    <h2 id="result"></h2>
+
+    <script>
+      let count = localStorage.getItem("counter");
+      if (count === null) {
+        count = 0;
+      } else {
+        count = Number(count);
+      }
+      document.getElementById("result").innerText = count;
+      function increase() {
+        count++;
+        localStorage.setItem("counter", count);
+        document.getElementById("result").innerText = count;
+      }
+      function decrease() {
+        count--;
+        localStorage.setItem("counter", count);
+        document.getElementById("result").innerText = count;
+      }
+    </script>
+  </body>
+</html>
